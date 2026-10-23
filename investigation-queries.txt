@@ -1,0 +1,37 @@
+# Example investigation queries
+# Training use only. Adapt field names to your own data source and schema.
+# Do not assume these queries will run unchanged in every environment.
+
+## 1. Basic review
+Open sample-auth-events.csv and filter:
+- AccountName = labuser
+- EventID = 4625 or 4624
+Then sort TimestampUTC ascending.
+
+## 2. Splunk SPL example
+index=windows (EventCode=4625 OR EventCode=4624) AccountName="labuser"
+| stats count by EventCode, AccountName, SourceIP
+| sort - count
+
+## 3. Splunk time-sequence example
+index=windows (EventCode=4625 OR EventCode=4624) AccountName="labuser"
+| table _time, EventCode, AccountName, SourceIP, ComputerName, LogonType
+| sort 0 _time
+
+## 4. Microsoft Sentinel / Kusto example
+// Field and table names vary by connector and data collection configuration.
+SecurityEvent
+| where EventID in (4625, 4624)
+| where Account == "labuser"
+| project TimeGenerated, EventID, Account, IpAddress, Computer, LogonType
+| order by TimeGenerated asc
+
+## 5. Questions to answer
+- How many failures occur before the success?
+- Do the events share the same account and source?
+- What time window contains the activity?
+- What additional fields or logs would you need before deciding this is malicious?
+- What would make you escalate the case?
+
+## Important
+These are illustrative examples, not proof of a successful detection in a live SIEM. Update field names and validate results in your own authorised lab.
