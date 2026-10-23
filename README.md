@@ -3,7 +3,7 @@
 **Portfolio project:** SOC Analyst Level 1  
 **Status:** Training project using synthetic data  
 **Author:** Naomi Amankwah
-**Tools:** CSV/log review; optional Splunk SPL or Microsoft Sentinel KQL
+**Tools:**  CSV/log review; optional Splunk SPL or Microsoft Sentinel KQL
 
 ## 1. Objective
 
